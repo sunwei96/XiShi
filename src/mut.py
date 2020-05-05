@@ -21,6 +21,7 @@ class TestMutableList(unittest.TestCase):
             ['a'],
             ['a', 'b']
         ]
+        
         for e in test_data:
             lst = List()
             lst.from_list(e)
