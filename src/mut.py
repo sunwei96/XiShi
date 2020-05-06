@@ -10,18 +10,17 @@ class TestMutableList(unittest.TestCase):
         list.add_to_tail('b')
         self.assertEqual(list.size(), 2)
 
-    def test_empty(self):
-
-        self.assertEqual(List('a').isEmpty(),False )
+    def test_remove(self):
         list = List('a')
         list.add_to_tail('b')
-        self.assertEqual(list.isEmpty(), False)
+        list.add_to_tail('c')
+        list.remove('a')
+        self.assertEqual(list.lt,['b','c'] )
+        list.remove('b')
+        self.assertEqual(list.lt,['c'])
+        list.remove('c')
+        self.assertEqual(list.lt, [])
 
-    def test_get(self):
-        list = List('a')
-        list.add_to_tail('b')
-        self.assertEqual(list.get(0),'a')
-        self.assertEqual(list.get(1), 'b')
 
     def test_from_list(self):
         test_data = [
@@ -88,6 +87,14 @@ class TestMutableList(unittest.TestCase):
         lst = List()
         lst.from_list(a)
         self.assertEqual(lst.size(), len(a))
+
+    def test_iter(self):
+        x = [1, 2, 3]
+        lst = List()
+        lst.from_list(x)
+        i = iter(lst)
+        self.assertRaises(StopIteration, lambda: next(i))
+
 
 if __name__ == '__main__':
     unittest.main()

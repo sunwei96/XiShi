@@ -1,14 +1,15 @@
-
-
 class List(object):
 
     def __init__(self,root=None):
         self.lt=[]
+        self.start = 0
         if root!=None:
             self.lt.append(root)
 
     def size(self):
         return len(self.lt)
+    def remove(self,value):
+        self.lt.remove(value)
 
     def isEmpty(self):
         if self.size == 0:
@@ -50,17 +51,23 @@ class List(object):
             state = f(state,cur)
         return state
 
-    def get(self, index):
-        if index < 0 or index >= self.size():  # 判断index的合法性
-            raise Exception('Get failed. Index is illegal.')
-        return self.lt[index]
-
     def findAll(self, elem):
         l = []
         for i in range(len(self.lt)):  # 遍历数组
             if self.lt[i] == elem:
                 l.append(i)  # 找到就将索引添加进ret_list
         return l
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if len(self.lt) == self.size():
+           raise StopIteration
+        tmp = self.lt[self.start]
+        self.start += 1
+        return tmp
+
 
 
 
