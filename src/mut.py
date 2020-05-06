@@ -5,16 +5,24 @@ from p1 import *
 class TestMutableList(unittest.TestCase):
     def test_size(self):
         self.assertEqual(List().size(), 0)
-        self.assertEqual(List(Node('a')).size(), 1)
-        list = List(Node('a'))
+        self.assertEqual(List('a').size(), 1)
+        list = List('a')
         list.add_to_tail('b')
         self.assertEqual(list.size(), 2)
-    def test_to_list(self):
-        self.assertEqual(List().to_list(), [])
-        self.assertEqual(List(Node('a')).to_list(), ['a'])
-        list = List(Node('a'))
+
+    def test_empty(self):
+
+        self.assertEqual(List('a').isEmpty(),False )
+        list = List('a')
         list.add_to_tail('b')
-        self.assertEqual(list.to_list(), ['a', 'b'])
+        self.assertEqual(list.isEmpty(), False)
+
+    def test_get(self):
+        list = List('a')
+        list.add_to_tail('b')
+        self.assertEqual(list.get(0),'a')
+        self.assertEqual(list.get(1), 'b')
+
     def test_from_list(self):
         test_data = [
             [],
@@ -25,31 +33,31 @@ class TestMutableList(unittest.TestCase):
         for e in test_data:
             lst = List()
             lst.from_list(e)
-            self.assertEqual(lst.to_list(), e)
+            self.assertEqual(lst.lt, e)
     def test_add_to_head(self):
         lst = List()
-        self.assertEqual(lst.to_list(), [])
+        self.assertEqual(lst.lt, [])
         lst.add_to_head('a')
-        self.assertEqual(lst.to_list(), ['a'])
+        self.assertEqual(lst.lt, ['a'])
         lst.add_to_head('b')
-        self.assertEqual(lst.to_list(), ['b', 'a'])
+        self.assertEqual(lst.lt, ['b', 'a'])
 
     def test_add_to_tail(self):
         lst = List()
-        self.assertEqual(lst.to_list(), [])
+        self.assertEqual(lst.lt, [])
         lst.add_to_tail('a')
-        self.assertEqual(lst.to_list(), ['a'])
+        self.assertEqual(lst.lt, ['a'])
         lst.add_to_tail('b')
-        self.assertEqual(lst.to_list(), ['a', 'b'])
+        self.assertEqual(lst.lt, ['a', 'b'])
 
     def test_map(self):
         lst = List()
         lst.map(str)
-        self.assertEqual(lst.to_list(), [])
+        self.assertEqual(lst.lt, [])
         lst = List()
         lst.from_list([1, 2, 3])
         lst.map(str)
-        self.assertEqual(lst.to_list(), ["1", "2", "3"])
+        self.assertEqual(lst.lt, ["1", "2", "3"])
 
     def test_reduce(self):  # sum of empty list
         lst = List()
@@ -67,13 +75,13 @@ class TestMutableList(unittest.TestCase):
             lst = List()
             lst.from_list(e)
             self.assertEqual(lst.reduce(lambda st, _: st + 1, 0), lst.size())
+    def test_findall(self):
+        list = List('a')
+        list.add_to_tail('b')
+        list.add_to_tail('c')
+        list.add_to_tail('b')
+        self.assertEqual(list.findAll('b'),[1,3] )
 
-    @given(st.lists(st.integers()))
-    def test_from_list_to_list_equality(self, a):
-        lst = List()
-        lst.from_list(a)
-        b = lst.to_list()
-        self.assertEqual(a, b)
 
     @given(st.lists(st.integers()))
     def test_python_len_and_list_size_equality(self, a):
